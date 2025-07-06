@@ -1,6 +1,7 @@
 import { Box } from "@mui/material";
 import { FunctionComponent } from "react";
 import { Outlet } from "react-router-dom";
+import Navbar from "./Navbar";
 
 interface Props {}
 
@@ -16,6 +17,7 @@ const Layout: FunctionComponent<Props> = (props: Props) => {
           width: "100vw",
         }}
       >
+        <Navbar />
         <Outlet />
       </Box>
     </>
