@@ -23,7 +23,12 @@ const TransactionList: FunctionComponent<Props> = (props: Props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            <TableRow>
+            <TableRow
+              onClick={() => {
+                console.log("Row clicked ");
+              }}
+              sx={{ cursor: "pointer" }}
+            >
               <TableCell>Content</TableCell>
             </TableRow>
           </TableBody>
