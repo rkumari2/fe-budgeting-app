@@ -1,7 +1,6 @@
 import { Box, Stack, Typography } from "@mui/material";
 import { FunctionComponent } from "react";
 import { useNavigate } from "react-router-dom";
-import SearchBar from "./SearchBar";
 
 interface Props {}
 
@@ -11,15 +10,23 @@ const NavigationBar: FunctionComponent<Props> = (props: Props) => {
   return (
     <>
       <Stack
-        direction={"row"}
-        justifyContent={"space-between"}
-        alignItems={"center"}
+        direction={"column"}
+        justifyContent={"start"}
+        alignItems={"start"}
         sx={{
           backgroundColor: "black",
-          padding: "18px 60px",
+          padding: "32px 16px",
+          height: "100%",
         }}
+        gap={2}
       >
-        <Stack direction={"row"} flex={1} spacing={4}>
+        <Typography
+          variant="h6"
+          sx={{ color: "white", fontWeight: "bold", marginBottom: 2 }}
+        >
+          Budgeting App
+        </Typography>
+        <Stack direction={"column"} flex={1} spacing={4}>
           <Box
             onClick={() => navigate("/")}
             sx={{ cursor: "pointer", color: "white" }}
@@ -35,9 +42,9 @@ const NavigationBar: FunctionComponent<Props> = (props: Props) => {
           </Box>
         </Stack>
 
-        <Stack flex={1}>
+        {/* <Stack flex={1}>
           <SearchBar placeholder="Search" value="" onChange={() => null} />
-        </Stack>
+        </Stack> */}
       </Stack>
     </>
   );

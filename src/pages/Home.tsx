@@ -12,20 +12,17 @@ const Home: FunctionComponent<Props> = (props: Props) => {
         direction="column"
         justifyContent="start"
         alignItems="center"
-        sx={{ height: "100vh" }}
+        bgcolor={"pink"}
+        height={"100%"}
+        width={"100%"}
+        padding={0}
+        gap={4}
       >
         <Stack
           direction="row"
           justifyContent="space-between"
           alignItems="center"
-          sx={{
-            backgroundColor: "white",
-            padding: "18px 60px",
-            border: "1px solid lightgray",
-            borderRadius: "8px",
-            width: "80%",
-            marginTop: "20px",
-          }}
+          width={"100%"}
         >
           <AmountCard title="Balance" amount="$0.00" />
           <AmountCard title="Income" amount="$0.00" />
@@ -38,11 +35,9 @@ const Home: FunctionComponent<Props> = (props: Props) => {
           alignItems="center"
           sx={{
             backgroundColor: "white",
-            padding: "18px 60px",
             border: "1px solid lightgray",
             borderRadius: "8px",
-            width: "80%",
-            marginTop: "20px",
+            width: "100%",
           }}
         >
           <TransactionList />

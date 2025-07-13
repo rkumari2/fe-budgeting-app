@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import { FunctionComponent } from "react";
 import { Outlet } from "react-router-dom";
 import Navbar from "./Navbar";
@@ -8,18 +8,34 @@ interface Props {}
 const Layout: FunctionComponent<Props> = (props: Props) => {
   return (
     <>
-      <Box
+      <Stack
+        direction={"row"}
         sx={{
-          display: "flex",
-          flexDirection: "column",
-          backgroundColor: "#f0f0f0",
+          backgroundColor: "red",
           height: "100vh",
           width: "100vw",
         }}
+        gap={0}
       >
-        <Navbar />
-        <Outlet />
-      </Box>
+        <Box
+          sx={{
+            width: "15%",
+            height: "100%",
+          }}
+        >
+          <Navbar />
+        </Box>
+        <Box
+          sx={{
+            width: "85%",
+            // height: "100%",
+            padding: 4,
+            // backgroundColor: "#f0f0f0",
+          }}
+        >
+          <Outlet />
+        </Box>
+      </Stack>
     </>
   );
 };
