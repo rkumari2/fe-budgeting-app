@@ -1,6 +1,7 @@
-import { Stack } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import { FunctionComponent } from "react";
 import AmountCard from "../components/AmountCard";
+import SearchBar from "../components/SearchBar";
 import TransactionList from "../components/TransactionList";
 
 interface Props {}
@@ -12,12 +13,22 @@ const Home: FunctionComponent<Props> = (props: Props) => {
         direction="column"
         justifyContent="start"
         alignItems="center"
-        bgcolor={"pink"}
         height={"100%"}
         width={"100%"}
         padding={0}
         gap={4}
       >
+        <Stack
+          direction={"row"}
+          justifyContent={"space-between"}
+          alignItems={"center"}
+          width={"100%"}
+        >
+          <Typography variant="h6">Dashboard</Typography>
+          <Box>
+            <SearchBar placeholder="Search..." value="" onChange={() => {}} />
+          </Box>
+        </Stack>
         <Stack
           direction="row"
           justifyContent="space-between"
@@ -33,12 +44,7 @@ const Home: FunctionComponent<Props> = (props: Props) => {
           direction="row"
           justifyContent="space-between"
           alignItems="center"
-          sx={{
-            backgroundColor: "white",
-            border: "1px solid lightgray",
-            borderRadius: "8px",
-            width: "100%",
-          }}
+          width={"100%"}
         >
           <TransactionList />
         </Stack>

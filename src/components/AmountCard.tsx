@@ -19,6 +19,7 @@ const AmountCard: FunctionComponent<Props> = (props: Props) => {
         border: "1px solid lightgray",
         borderRadius: "8px",
       }}
+      width={"10%"}
     >
       <Typography variant="h6">{title}</Typography>
       <Typography variant="h6">{amount}</Typography>

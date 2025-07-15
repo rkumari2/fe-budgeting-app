@@ -11,7 +11,6 @@ const Layout: FunctionComponent<Props> = (props: Props) => {
       <Stack
         direction={"row"}
         sx={{
-          backgroundColor: "red",
           height: "100vh",
           width: "100vw",
         }}
@@ -28,9 +27,7 @@ const Layout: FunctionComponent<Props> = (props: Props) => {
         <Box
           sx={{
             width: "85%",
-            // height: "100%",
             padding: 4,
-            // backgroundColor: "#f0f0f0",
           }}
         >
           <Outlet />

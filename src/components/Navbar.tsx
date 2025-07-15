@@ -1,4 +1,4 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Divider, Stack, Typography } from "@mui/material";
 import { FunctionComponent } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -26,7 +26,7 @@ const NavigationBar: FunctionComponent<Props> = (props: Props) => {
         >
           Budgeting App
         </Typography>
-        <Stack direction={"column"} flex={1} spacing={4}>
+        <Stack direction={"column"} spacing={4}>
           <Box
             onClick={() => navigate("/")}
             sx={{ cursor: "pointer", color: "white" }}
@@ -38,7 +38,25 @@ const NavigationBar: FunctionComponent<Props> = (props: Props) => {
             onClick={() => navigate("/add")}
             sx={{ cursor: "pointer", color: "white" }}
           >
-            <Typography>Add</Typography>
+            <Typography>Add Transaction</Typography>
+          </Box>
+          <Divider sx={{ backgroundColor: "white" }} />
+        </Stack>
+        <Stack
+          direction={"column"}
+          spacing={4}
+          justifyContent={"end"}
+          alignItems={"start"}
+          flex={0.8}
+        >
+          <Typography sx={{ cursor: "pointer", color: "white" }}>
+            Dark Mode
+          </Typography>
+          <Box
+            onClick={() => navigate("/profile")}
+            sx={{ cursor: "pointer", color: "white" }}
+          >
+            <Typography>Profile</Typography>
           </Box>
         </Stack>
 
