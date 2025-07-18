@@ -1,12 +1,30 @@
 import { Box, Stack, Typography } from "@mui/material";
-import { FunctionComponent } from "react";
+import { FunctionComponent, useState } from "react";
+import { useApi } from "../api/api";
 import AmountCard from "../components/AmountCard";
 import SearchBar from "../components/SearchBar";
 import TransactionList from "../components/TransactionList";
+import { useMonth } from "../context/MonthContext";
+import { Transaction } from "../types/transactions";
 
 interface Props {}
 
 const Home: FunctionComponent<Props> = (props: Props) => {
+  const { month } = useMonth();
+  const { isLoading, data: transactionData } = useApi<Transaction>(
+    "transactions",
+    {
+      month,
+    }
+  );
+  const [totalBalance, setTotalBalance] = useState();
+  const [totalIncome, setTotalIncome] = useState();
+  const [totalExpenses, setTotalExpenses] = useState();
+  const [totalSavings, setTotalSavings] = useState();
+
+  console.log(month);
+  console.log(transactionData);
+
   return (
     <>
       <Stack
