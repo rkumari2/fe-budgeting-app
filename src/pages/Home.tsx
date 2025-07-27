@@ -21,7 +21,6 @@ const Home: FunctionComponent<Props> = (props: Props) => {
   const [totalBalance, setTotalBalance] = useState<number>();
   const [totalIncome, setTotalIncome] = useState<number>();
   const [totalExpenses, setTotalExpenses] = useState<number>();
-  // const [totalSavings, setTotalSavings] = useState<number>();
 
   console.log("Month", month);
   console.log(transactionData);
@@ -35,12 +34,10 @@ const Home: FunctionComponent<Props> = (props: Props) => {
         .filter((t) => t.type === "expense")
         .reduce((acc, curr) => acc + curr.amount, 0);
       const balance = income - expenses;
-      // const savings = balance > 0 ? balance : 0;
 
       setTotalIncome(income);
       setTotalExpenses(expenses);
       setTotalBalance(balance);
-      // setTotalSavings(savings);
     }
   }, [transactionData]);
 
@@ -76,7 +73,6 @@ const Home: FunctionComponent<Props> = (props: Props) => {
           <AmountCard title="Balance" amount={totalBalance} />
           <AmountCard title="Income" amount={totalIncome} />
           <AmountCard title="Expenses" amount={totalExpenses} />
-          {/* <AmountCard title="Savings" amount={totalSavings} /> */}
         </Stack>
         <Stack
           direction="row"
@@ -84,7 +80,7 @@ const Home: FunctionComponent<Props> = (props: Props) => {
           alignItems="center"
           width={"100%"}
         >
-          <TransactionList />
+          <TransactionList transactionData={transactionData} />
         </Stack>
       </Stack>
     </>
