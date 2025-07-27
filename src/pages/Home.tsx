@@ -2,6 +2,7 @@ import { Box, Stack, Typography } from "@mui/material";
 import { FunctionComponent, useState } from "react";
 import { useApi } from "../api/api";
 import AmountCard from "../components/AmountCard";
+import MonthCalendar from "../components/MonthCalendar";
 import SearchBar from "../components/SearchBar";
 import TransactionList from "../components/TransactionList";
 import { useMonth } from "../context/MonthContext";
@@ -22,7 +23,7 @@ const Home: FunctionComponent<Props> = (props: Props) => {
   const [totalExpenses, setTotalExpenses] = useState();
   const [totalSavings, setTotalSavings] = useState();
 
-  console.log(month);
+  console.log("Month", month);
   console.log(transactionData);
 
   return (
@@ -42,6 +43,7 @@ const Home: FunctionComponent<Props> = (props: Props) => {
           alignItems={"center"}
           width={"100%"}
         >
+          <MonthCalendar />
           <Typography variant="h6">Dashboard</Typography>
           <Box>
             <SearchBar placeholder="Search..." value="" onChange={() => {}} />
