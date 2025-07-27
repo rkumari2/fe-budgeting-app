@@ -28,6 +28,7 @@ const Layout: FunctionComponent<Props> = (props: Props) => {
           sx={{
             width: "85%",
             padding: 4,
+            overflowY: "auto",
           }}
         >
           <Outlet />

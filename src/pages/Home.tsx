@@ -2,6 +2,7 @@ import { Box, Stack, Typography } from "@mui/material";
 import { FunctionComponent, useEffect, useState } from "react";
 import { useApi } from "../api/api";
 import AmountCard from "../components/AmountCard";
+import InsightsBarChart from "../components/InsightsBarChart";
 import MonthCalendar from "../components/MonthCalendar";
 import SearchBar from "../components/SearchBar";
 import TransactionList from "../components/TransactionList";
@@ -84,6 +85,7 @@ const Home: FunctionComponent<Props> = (props: Props) => {
           <TransactionList transactionData={transactionData} />
           <TransactionPieChart transactionData={transactionData} />
         </Stack>
+        <InsightsBarChart transactionData={transactionData} />
       </Stack>
     </>
   );
