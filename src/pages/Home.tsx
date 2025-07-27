@@ -5,6 +5,7 @@ import AmountCard from "../components/AmountCard";
 import MonthCalendar from "../components/MonthCalendar";
 import SearchBar from "../components/SearchBar";
 import TransactionList from "../components/TransactionList";
+import TransactionPieChart from "../components/TransactionsPieChart";
 import { useMonth } from "../context/MonthContext";
 import { Transaction } from "../types/transactions";
 
@@ -81,6 +82,7 @@ const Home: FunctionComponent<Props> = (props: Props) => {
           width={"100%"}
         >
           <TransactionList transactionData={transactionData} />
+          <TransactionPieChart transactionData={transactionData} />
         </Stack>
       </Stack>
     </>
