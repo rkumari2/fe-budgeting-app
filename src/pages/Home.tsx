@@ -49,7 +49,6 @@ const Home: FunctionComponent<Props> = (props: Props) => {
         direction="column"
         justifyContent="start"
         alignItems="center"
-        height={"100%"}
         width={"100%"}
         padding={0}
         gap={4}

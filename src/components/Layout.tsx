@@ -1,40 +1,58 @@
 import { Box, Stack } from "@mui/material";
-import { FunctionComponent } from "react";
+import { FunctionComponent, useEffect, useRef } from "react";
 import { Outlet } from "react-router-dom";
 import Navbar from "./Navbar";
 
-interface Props {}
+const Layout: FunctionComponent = () => {
+  const scrollRef = useRef<HTMLDivElement>(null);
 
-const Layout: FunctionComponent<Props> = (props: Props) => {
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (el) {
+      el.style.transform = "translateZ(0)";
+    }
+  }, []);
+
   return (
-    <>
-      <Stack
-        direction={"row"}
+    <Stack
+      direction="row"
+      sx={{ height: "100vh", width: "100vw", overflow: "hidden" }}
+    >
+      <Box
         sx={{
-          height: "100vh",
-          width: "100vw",
+          width: "15%",
+          height: "100%",
+          overflow: "hidden",
+          flexShrink: 0,
         }}
-        gap={0}
+      >
+        <Navbar />
+      </Box>
+
+      <Box
+        sx={{
+          flexGrow: 1,
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+          overflow: "hidden",
+        }}
       >
         <Box
+          ref={scrollRef}
           sx={{
-            width: "15%",
-            height: "100%",
-          }}
-        >
-          <Navbar />
-        </Box>
-        <Box
-          sx={{
-            width: "85%",
-            padding: 4,
+            flexGrow: 1,
             overflowY: "auto",
+            paddingTop: 4,
+            paddingBottom: 4,
+            paddingX: 4,
+            boxSizing: "border-box",
           }}
         >
           <Outlet />
         </Box>
-      </Stack>
-    </>
+      </Box>
+    </Stack>
   );
 };
 
