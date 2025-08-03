@@ -8,8 +8,9 @@ import {
   TablePagination,
   TableRow,
 } from "@mui/material";
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useMemo, useState } from "react";
 import { Transaction } from "../types/transactions";
+import SearchBar from "./SearchBar";
 
 interface Props {
   transactionData: Transaction[] | undefined;
@@ -17,7 +18,8 @@ interface Props {
 
 const TransactionList: FunctionComponent<Props> = ({ transactionData }) => {
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(2);
+  const [searchValue, setSearchValue] = useState("");
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -30,15 +32,43 @@ const TransactionList: FunctionComponent<Props> = ({ transactionData }) => {
     setPage(0);
   };
 
-  const pagedTransactions = transactionData?.slice(
-    page * rowsPerPage,
-    page * rowsPerPage + rowsPerPage
-  );
+  const filteredTransactions = useMemo(() => {
+    if (!transactionData) return [];
+    const lower = searchValue.toLowerCase();
+
+    return transactionData.filter((t) =>
+      [
+        t.category,
+        t.note,
+        t.amount.toString(),
+        t.type,
+        new Date(t.date).toLocaleDateString(),
+      ]
+        .join(" ")
+        .toLowerCase()
+        .includes(lower)
+    );
+  }, [transactionData, searchValue]);
+
+  const pagedTransactions = useMemo(() => {
+    return filteredTransactions.slice(
+      page * rowsPerPage,
+      page * rowsPerPage + rowsPerPage
+    );
+  }, [filteredTransactions, page, rowsPerPage]);
 
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
+      <SearchBar
+        placeholder="Search transactions"
+        value={searchValue}
+        onChange={(val) => {
+          setSearchValue(val);
+          setPage(0);
+        }}
+      />
       <TableContainer sx={{ maxHeight: 440 }}>
-        <Table stickyHeader aria-label="sticky table">
+        <Table stickyHeader aria-label="transaction table">
           <TableHead>
             <TableRow>
               <TableCell>Date</TableCell>
@@ -48,7 +78,7 @@ const TransactionList: FunctionComponent<Props> = ({ transactionData }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {pagedTransactions?.map((transaction) => (
+            {pagedTransactions.map((transaction) => (
               <TableRow
                 key={transaction.id}
                 onClick={() => {
@@ -73,7 +103,7 @@ const TransactionList: FunctionComponent<Props> = ({ transactionData }) => {
       <TablePagination
         rowsPerPageOptions={[5, 10, 25, 100]}
         component="div"
-        count={transactionData?.length || 0}
+        count={filteredTransactions.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

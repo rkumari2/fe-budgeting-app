@@ -1,10 +1,9 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import { FunctionComponent, useEffect, useState } from "react";
 import { useApi } from "../api/api";
 import AmountCard from "../components/AmountCard";
 import InsightsBarChart from "../components/InsightsBarChart";
 import MonthCalendar from "../components/MonthCalendar";
-import SearchBar from "../components/SearchBar";
 import TransactionList from "../components/TransactionList";
 import TransactionPieChart from "../components/TransactionsPieChart";
 import { useMonth } from "../context/MonthContext";
@@ -61,9 +60,6 @@ const Home: FunctionComponent<Props> = (props: Props) => {
         >
           <MonthCalendar />
           <Typography variant="h6">Dashboard</Typography>
-          <Box>
-            <SearchBar placeholder="Search..." value="" onChange={() => {}} />
-          </Box>
         </Stack>
         <Stack
           direction="row"
