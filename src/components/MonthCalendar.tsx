@@ -9,8 +9,6 @@ import {
   Stack,
   useTheme,
 } from "@mui/material";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { StaticDatePicker } from "@mui/x-date-pickers/StaticDatePicker";
 import dayjs, { Dayjs } from "dayjs";
 import updateLocale from "dayjs/plugin/updateLocale";
@@ -79,22 +77,22 @@ const MonthCalendar: FunctionComponent<Props> = (): JSX.Element => {
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         transformOrigin={{ vertical: "top", horizontal: "center" }}
       >
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <StaticDatePicker
-            displayStaticWrapperAs="desktop"
-            openTo="month"
-            views={["year", "month"]}
-            value={selectedMonth}
-            onChange={(newMonth) => {
-              if (newMonth) {
-                setSelectedMonth(newMonth);
-                setMonth(newMonth.format("YYYY-MM"));
-                setAnchorEl(null);
-              }
-            }}
-            slots={{ actionBar: () => null }}
-          />
-        </LocalizationProvider>
+        {/* <LocalizationProvider dateAdapter={AdapterDayjs}> */}
+        <StaticDatePicker
+          displayStaticWrapperAs="desktop"
+          openTo="month"
+          views={["year", "month"]}
+          value={selectedMonth}
+          onChange={(newMonth) => {
+            if (newMonth) {
+              setSelectedMonth(newMonth);
+              setMonth(newMonth.format("YYYY-MM"));
+              setAnchorEl(null);
+            }
+          }}
+          slots={{ actionBar: () => null }}
+        />
+        {/* </LocalizationProvider> */}
 
         <Box sx={{ padding: 2, textAlign: "center" }}>
           <button

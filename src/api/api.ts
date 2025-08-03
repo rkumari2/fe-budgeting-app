@@ -1,4 +1,8 @@
-import { useQuery } from "@tanstack/react-query";
+import {
+  useMutation,
+  UseMutationResult,
+  useQuery,
+} from "@tanstack/react-query";
 import axios from "axios";
 
 const baseURL = process.env.REACT_APP_API_URL;
@@ -56,6 +60,30 @@ export const useApi = <T>(entityName: EntityTypes, query?: QueryData) => {
         console.error("API fetch error:", ex);
         return [] as T;
       }
+    },
+  });
+};
+
+export const usePostApi = <T>(
+  entityName: string
+): UseMutationResult<T, Error, T, unknown> => {
+  return useMutation<T, Error, T>({
+    mutationFn: async (data: T) => {
+      const res = await axios.post(`${baseURL}/api/${entityName}`, data);
+      return res.data;
+    },
+  });
+};
+
+export const useMutateApi = <T>(entityName: EntityTypes) => {
+  return useMutation({
+    mutationFn: async ({ id, data }: { id: string; data: T }) => {
+      const uri = `${baseURL}/api/${entityName}?id=${id}`;
+      const response = await axios.patch(uri, data);
+      return response.data;
+    },
+    onError: (error) => {
+      console.error("API patch error:", error);
     },
   });
 };
