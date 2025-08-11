@@ -87,3 +87,16 @@ export const useMutateApi = <T>(entityName: EntityTypes) => {
     },
   });
 };
+
+export const useDeleteApi = (entityName: EntityTypes) => {
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const uri = `${baseURL}/api/${entityName}?id=${id}`;
+      const response = await axios.delete(uri);
+      return response.data;
+    },
+    onError: (error) => {
+      console.error("API delete error:", error);
+    },
+  });
+};

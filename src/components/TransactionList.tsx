@@ -1,4 +1,5 @@
 import {
+  Button,
   Paper,
   Table,
   TableBody,
@@ -10,6 +11,8 @@ import {
 } from "@mui/material";
 import { FunctionComponent, useMemo, useState } from "react";
 import { Transaction } from "../types/transactions";
+import DeleteDialog from "./DeleteDialog";
+import EditDialog from "./EditDialog";
 import SearchBar from "./SearchBar";
 
 interface Props {
@@ -18,8 +21,12 @@ interface Props {
 
 const TransactionList: FunctionComponent<Props> = ({ transactionData }) => {
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(2);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const [searchValue, setSearchValue] = useState("");
+  const [open, setOpen] = useState(false);
+  const [selectedTransaction, setSelectedTransaction] =
+    useState<Transaction | null>(null);
+  const [deleteOpen, setDeleteOpen] = useState(false);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -57,59 +64,104 @@ const TransactionList: FunctionComponent<Props> = ({ transactionData }) => {
     );
   }, [filteredTransactions, page, rowsPerPage]);
 
+  const handleClickOpen = (transaction: Transaction) => {
+    setSelectedTransaction(transaction);
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+    setSelectedTransaction(null);
+  };
+
+  const handleDeleteClick = (transaction: Transaction) => {
+    setSelectedTransaction(transaction);
+    setDeleteOpen(true);
+  };
+
+  const handleDeleteClose = () => {
+    setDeleteOpen(false);
+    setSelectedTransaction(null);
+  };
+
   return (
-    <Paper sx={{ width: "100%", overflow: "hidden" }}>
-      <SearchBar
-        placeholder="Search transactions"
-        value={searchValue}
-        onChange={(val) => {
-          setSearchValue(val);
-          setPage(0);
-        }}
-      />
-      <TableContainer sx={{ maxHeight: 440 }}>
-        <Table stickyHeader aria-label="transaction table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Date</TableCell>
-              <TableCell>Amount</TableCell>
-              <TableCell>Category</TableCell>
-              <TableCell>Note</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {pagedTransactions.map((transaction) => (
-              <TableRow
-                key={transaction.id}
-                onClick={() => {
-                  console.log("Row clicked", transaction);
-                }}
-                sx={{ cursor: "pointer" }}
-              >
-                <TableCell>
-                  {new Date(transaction.date).toLocaleDateString()}
-                </TableCell>
-                <TableCell>
-                  {transaction.type === "income" ? "+" : "-"}£
-                  {transaction.amount}
-                </TableCell>
-                <TableCell>{transaction.category}</TableCell>
-                <TableCell>{transaction.note}</TableCell>
+    <>
+      <Paper sx={{ width: "100%", overflow: "hidden" }}>
+        <SearchBar
+          placeholder="Search transactions"
+          value={searchValue}
+          onChange={(val) => {
+            setSearchValue(val);
+            setPage(0);
+          }}
+        />
+        <TableContainer sx={{ maxHeight: 440 }}>
+          <Table stickyHeader aria-label="transaction table">
+            <TableHead>
+              <TableRow>
+                <TableCell>Date</TableCell>
+                <TableCell>Amount</TableCell>
+                <TableCell>Category</TableCell>
+                <TableCell>Note</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[5, 10, 25, 100]}
-        component="div"
-        count={filteredTransactions.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
+            </TableHead>
+            <TableBody>
+              {pagedTransactions.map((transaction) => (
+                <TableRow key={transaction.id}>
+                  <TableCell>
+                    {new Date(transaction.date).toLocaleDateString()}
+                  </TableCell>
+                  <TableCell>
+                    {transaction.type === "income" ? "+" : "-"}£
+                    {transaction.amount}
+                  </TableCell>
+                  <TableCell>{transaction.category}</TableCell>
+                  <TableCell>{transaction.note}</TableCell>
+                  <TableCell>
+                    <Button
+                      variant="outlined"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleClickOpen(transaction);
+                      }}
+                    >
+                      Edit
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      color="error"
+                      onClick={() => handleDeleteClick(transaction)}
+                    >
+                      Delete
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25, 100]}
+          component="div"
+          count={filteredTransactions.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </Paper>
+
+      <EditDialog
+        open={open}
+        handleClose={handleClose}
+        transaction={selectedTransaction}
       />
-    </Paper>
+
+      <DeleteDialog
+        open={deleteOpen}
+        handleClose={handleDeleteClose}
+        transaction={selectedTransaction}
+      />
+    </>
   );
 };
 
