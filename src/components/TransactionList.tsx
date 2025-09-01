@@ -1,8 +1,9 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import {
+  Box,
   Button,
-  Paper,
+  ButtonGroup,
   Table,
   TableBody,
   TableCell,
@@ -87,7 +88,7 @@ const TransactionList: FunctionComponent<Props> = ({ transactionData }) => {
 
   return (
     <>
-      <Paper sx={{ width: "100%", overflow: "hidden" }}>
+      <Box sx={{ width: "100%" }}>
         <SearchBar
           placeholder="Search transactions"
           value={searchValue}
@@ -96,7 +97,7 @@ const TransactionList: FunctionComponent<Props> = ({ transactionData }) => {
             setPage(0);
           }}
         />
-        <TableContainer sx={{ maxHeight: 440 }}>
+        <TableContainer sx={{ height: 230, overflow: "auto" }}>
           <Table stickyHeader aria-label="transaction table">
             <TableHead>
               <TableRow>
@@ -120,22 +121,26 @@ const TransactionList: FunctionComponent<Props> = ({ transactionData }) => {
                   <TableCell>{transaction.category}</TableCell>
                   <TableCell>{transaction.note}</TableCell>
                   <TableCell>
-                    <Button
-                      variant="outlined"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleClickOpen(transaction);
-                      }}
-                    >
-                      <EditIcon />
-                    </Button>
-                    <Button
-                      variant="outlined"
-                      color="error"
-                      onClick={() => handleDeleteClick(transaction)}
-                    >
-                      <DeleteIcon />
-                    </Button>
+                    <ButtonGroup>
+                      <Button
+                        variant="outlined"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleClickOpen(transaction);
+                        }}
+                        size="small"
+                      >
+                        <EditIcon />
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        color="error"
+                        onClick={() => handleDeleteClick(transaction)}
+                        size="small"
+                      >
+                        <DeleteIcon />
+                      </Button>
+                    </ButtonGroup>
                   </TableCell>
                 </TableRow>
               ))}
@@ -151,7 +156,7 @@ const TransactionList: FunctionComponent<Props> = ({ transactionData }) => {
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
-      </Paper>
+      </Box>
 
       <EditDialog
         open={open}

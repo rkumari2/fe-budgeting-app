@@ -19,10 +19,10 @@ const AmountCard: FunctionComponent<Props> = (props: Props) => {
         border: "1px solid lightgray",
         borderRadius: "8px",
       }}
-      width={"20%"}
+      flex={1}
     >
-      <Typography variant="h6">{title}</Typography>
-      <Typography variant="h6">£{amount?.toFixed(2)}</Typography>
+      <Typography variant="body1">{title}</Typography>
+      <Typography variant="body1">£{amount?.toFixed(2)}</Typography>
     </Stack>
   );
 };
