@@ -1,3 +1,5 @@
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 import {
   Button,
   Paper,
@@ -102,6 +104,7 @@ const TransactionList: FunctionComponent<Props> = ({ transactionData }) => {
                 <TableCell>Amount</TableCell>
                 <TableCell>Category</TableCell>
                 <TableCell>Note</TableCell>
+                <TableCell></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -124,14 +127,14 @@ const TransactionList: FunctionComponent<Props> = ({ transactionData }) => {
                         handleClickOpen(transaction);
                       }}
                     >
-                      Edit
+                      <EditIcon />
                     </Button>
                     <Button
                       variant="outlined"
                       color="error"
                       onClick={() => handleDeleteClick(transaction)}
                     >
-                      Delete
+                      <DeleteIcon />
                     </Button>
                   </TableCell>
                 </TableRow>

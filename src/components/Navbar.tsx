@@ -1,6 +1,7 @@
 import { Box, Divider, Stack, Typography } from "@mui/material";
 import { FunctionComponent } from "react";
 import { useNavigate } from "react-router-dom";
+import DarkModeSwitch from "./DarkModeSwitch";
 
 interface Props {}
 
@@ -49,9 +50,7 @@ const NavigationBar: FunctionComponent<Props> = (props: Props) => {
           alignItems={"start"}
           flex={0.8}
         >
-          <Typography sx={{ cursor: "pointer", color: "white" }}>
-            Dark Mode
-          </Typography>
+          <DarkModeSwitch />
           <Box
             onClick={() => navigate("/profile")}
             sx={{ cursor: "pointer", color: "white" }}
