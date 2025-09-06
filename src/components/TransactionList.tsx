@@ -1,9 +1,9 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import {
-  Box,
   Button,
   ButtonGroup,
+  Stack,
   Table,
   TableBody,
   TableCell,
@@ -11,6 +11,8 @@ import {
   TableHead,
   TablePagination,
   TableRow,
+  Typography,
+  useTheme,
 } from "@mui/material";
 import { FunctionComponent, useMemo, useState } from "react";
 import { Transaction } from "../types/transactions";
@@ -23,6 +25,7 @@ interface Props {
 }
 
 const TransactionList: FunctionComponent<Props> = ({ transactionData }) => {
+  const theme = useTheme();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [searchValue, setSearchValue] = useState("");
@@ -88,7 +91,7 @@ const TransactionList: FunctionComponent<Props> = ({ transactionData }) => {
 
   return (
     <>
-      <Box sx={{ width: "100%" }}>
+      <Stack sx={{ width: "100%" }} gap={"12px"}>
         <SearchBar
           placeholder="Search transactions"
           value={searchValue}
@@ -97,7 +100,7 @@ const TransactionList: FunctionComponent<Props> = ({ transactionData }) => {
             setPage(0);
           }}
         />
-        <TableContainer sx={{ height: 230, overflow: "auto" }}>
+        <TableContainer sx={{ height: 250, overflow: "auto" }}>
           <Table stickyHeader aria-label="transaction table">
             <TableHead>
               <TableRow>
@@ -115,8 +118,18 @@ const TransactionList: FunctionComponent<Props> = ({ transactionData }) => {
                     {new Date(transaction.date).toLocaleDateString()}
                   </TableCell>
                   <TableCell>
-                    {transaction.type === "income" ? "+" : "-"}£
-                    {transaction.amount}
+                    <Typography
+                      variant="subtitle2"
+                      fontWeight={"bold"}
+                      color={
+                        transaction.type === "income"
+                          ? theme.palette.customColors.green
+                          : theme.palette.customColors.red
+                      }
+                    >
+                      {transaction.type === "income" ? "+" : "-"}£
+                      {transaction.amount}
+                    </Typography>
                   </TableCell>
                   <TableCell>{transaction.category}</TableCell>
                   <TableCell>{transaction.note}</TableCell>
@@ -129,6 +142,10 @@ const TransactionList: FunctionComponent<Props> = ({ transactionData }) => {
                           handleClickOpen(transaction);
                         }}
                         size="small"
+                        sx={{
+                          borderColor: theme.palette.customColors.green,
+                          color: theme.palette.customColors.green,
+                        }}
                       >
                         <EditIcon />
                       </Button>
@@ -137,6 +154,10 @@ const TransactionList: FunctionComponent<Props> = ({ transactionData }) => {
                         color="error"
                         onClick={() => handleDeleteClick(transaction)}
                         size="small"
+                        sx={{
+                          borderColor: theme.palette.customColors.red,
+                          color: theme.palette.customColors.red,
+                        }}
                       >
                         <DeleteIcon />
                       </Button>
@@ -156,7 +177,7 @@ const TransactionList: FunctionComponent<Props> = ({ transactionData }) => {
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
-      </Box>
+      </Stack>
 
       <EditDialog
         open={open}

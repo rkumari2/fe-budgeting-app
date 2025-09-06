@@ -1,12 +1,16 @@
 import { Box, Divider, Stack, Typography } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import { FunctionComponent } from "react";
 import { useNavigate } from "react-router-dom";
+import { useThemeMode } from "../context/ThemeContext";
 import DarkModeSwitch from "./DarkModeSwitch";
 
 interface Props {}
 
 const NavigationBar: FunctionComponent<Props> = (props: Props) => {
   const navigate = useNavigate();
+  const { mode, toggleMode } = useThemeMode();
+  const theme = useTheme();
 
   return (
     <>
@@ -15,7 +19,8 @@ const NavigationBar: FunctionComponent<Props> = (props: Props) => {
         justifyContent={"start"}
         alignItems={"start"}
         sx={{
-          backgroundColor: "black",
+          backgroundColor: theme.palette.background.paper,
+          // borderRight: `4px solid ${theme.palette.background.paper}`,
           padding: "32px 16px",
           height: "100%",
         }}
@@ -23,25 +28,45 @@ const NavigationBar: FunctionComponent<Props> = (props: Props) => {
       >
         <Typography
           variant="h6"
-          sx={{ color: "white", fontWeight: "bold", marginBottom: 2 }}
+          sx={{
+            color: theme.palette.text.secondary,
+            fontWeight: "bold",
+            marginBottom: 2,
+          }}
         >
           Budgeting App
         </Typography>
         <Stack direction={"column"} spacing={4}>
           <Box
             onClick={() => navigate("/")}
-            sx={{ cursor: "pointer", color: "white" }}
+            sx={{
+              cursor: "pointer",
+              color: theme.palette.text.secondary,
+              "&:hover": {
+                color: theme.palette.primary.main,
+                textDecoration: "underline",
+                transition: "all 0.2s ease-in-out",
+              },
+            }}
           >
             <Typography>Home</Typography>
           </Box>
 
           <Box
             onClick={() => navigate("/add")}
-            sx={{ cursor: "pointer", color: "white" }}
+            sx={{
+              cursor: "pointer",
+              color: theme.palette.text.secondary,
+              "&:hover": {
+                color: theme.palette.primary.main,
+                textDecoration: "underline",
+                transition: "all 0.2s ease-in-out",
+              },
+            }}
           >
             <Typography>Add Transaction</Typography>
           </Box>
-          <Divider sx={{ backgroundColor: "white" }} />
+          <Divider sx={{ backgroundColor: theme.palette.text.secondary }} />
         </Stack>
         <Stack
           direction={"column"}
@@ -50,18 +75,22 @@ const NavigationBar: FunctionComponent<Props> = (props: Props) => {
           alignItems={"start"}
           flex={0.8}
         >
-          <DarkModeSwitch />
+          <DarkModeSwitch checked={mode === "dark"} onChange={toggleMode} />
           <Box
             onClick={() => navigate("/profile")}
-            sx={{ cursor: "pointer", color: "white" }}
+            sx={{
+              cursor: "pointer",
+              color: theme.palette.text.secondary,
+              "&:hover": {
+                color: theme.palette.primary.main,
+                textDecoration: "underline",
+                transition: "all 0.2s ease-in-out",
+              },
+            }}
           >
             <Typography>Profile</Typography>
           </Box>
         </Stack>
-
-        {/* <Stack flex={1}>
-          <SearchBar placeholder="Search" value="" onChange={() => null} />
-        </Stack> */}
       </Stack>
     </>
   );

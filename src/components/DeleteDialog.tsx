@@ -1,3 +1,4 @@
+import CloseIcon from "@mui/icons-material/Close";
 import {
   Button,
   Dialog,
@@ -5,6 +6,8 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  IconButton,
+  useTheme,
 } from "@mui/material";
 import { useQueryClient } from "@tanstack/react-query";
 import { useDeleteApi } from "../api/api";
@@ -23,6 +26,9 @@ export default function DeleteDialog({
 }: Props) {
   const deleteMutation = useDeleteApi("transactions");
   const queryClient = useQueryClient();
+  const theme = useTheme();
+
+  const isSubmitting = deleteMutation.status === "pending";
 
   const handleDelete = () => {
     if (!transaction) return;
@@ -36,19 +42,57 @@ export default function DeleteDialog({
 
   return (
     <Dialog open={open} onClose={handleClose}>
-      <DialogTitle>Delete Transaction</DialogTitle>
-      <DialogContent>
-        <DialogContentText>
+      <DialogTitle sx={{ backgroundColor: theme.palette.background.default }}>
+        Delete Transaction
+        <IconButton
+          aria-label="close"
+          onClick={handleClose}
+          sx={(theme) => ({
+            position: "absolute",
+            right: 8,
+            top: 8,
+            color: theme.palette.grey[500],
+          })}
+        >
+          <CloseIcon />
+        </IconButton>
+      </DialogTitle>
+      <DialogContent
+        dividers
+        sx={{ backgroundColor: theme.palette.background.default }}
+      >
+        <DialogContentText
+          sx={{
+            color: theme.palette.text.primary,
+          }}
+        >
           Are you sure you want to delete the transaction{" "}
-          <strong>{transaction?.category}</strong> of £{transaction?.amount}?
+          <strong>{transaction?.category}</strong> of{" "}
+          <strong>£{transaction?.amount}</strong>?
         </DialogContentText>
       </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose} color="primary">
+      <DialogActions
+        sx={{
+          backgroundColor: theme.palette.background.default,
+        }}
+      >
+        <Button
+          onClick={handleClose}
+          disabled={isSubmitting}
+          sx={{ fontWeight: "bold" }}
+        >
           Cancel
         </Button>
-        <Button onClick={handleDelete} color="error" variant="contained">
-          Yes, Delete
+        <Button
+          onClick={handleDelete}
+          variant="contained"
+          disabled={isSubmitting}
+          sx={{
+            color: theme.palette.customColors.buttonText,
+            fontWeight: "bold",
+          }}
+        >
+          Delete
         </Button>
       </DialogActions>
     </Dialog>

@@ -14,12 +14,12 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { styled } from "@mui/material/styles";
+import { styled, useTheme } from "@mui/material/styles";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import * as React from "react";
-import { useDeleteApi, useMutateApi } from "../api/api";
+import { useMutateApi } from "../api/api";
 import { Transaction } from "../types/transactions";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -42,16 +42,15 @@ export default function EditDialog({ open, handleClose, transaction }: Props) {
     transaction
   );
   const queryClient = useQueryClient();
+  const theme = useTheme();
 
   React.useEffect(() => {
     setFormData(transaction);
   }, [transaction]);
 
   const updateMutation = useMutateApi<Transaction>("transactions");
-  const deleteMutation = useDeleteApi("transactions");
 
-  const isSubmitting =
-    updateMutation.status === "pending" || deleteMutation.status === "pending";
+  const isSubmitting = updateMutation.status === "pending";
 
   const handleChange = (field: keyof Transaction, value: string | number) => {
     if (!formData) return;
@@ -78,23 +77,9 @@ export default function EditDialog({ open, handleClose, transaction }: Props) {
     }
   };
 
-  const handleDelete = () => {
-    if (
-      transaction &&
-      window.confirm("Are you sure you want to delete this transaction?")
-    ) {
-      deleteMutation.mutate(String(transaction.id), {
-        onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: ["transactions"] });
-          handleClose();
-        },
-      });
-    }
-  };
-
   return (
     <BootstrapDialog onClose={handleClose} open={open} maxWidth="sm" fullWidth>
-      <DialogTitle>
+      <DialogTitle sx={{ backgroundColor: theme.palette.background.default }}>
         Edit Transaction
         <IconButton
           aria-label="close"
@@ -109,7 +94,10 @@ export default function EditDialog({ open, handleClose, transaction }: Props) {
           <CloseIcon />
         </IconButton>
       </DialogTitle>
-      <DialogContent dividers>
+      <DialogContent
+        dividers
+        sx={{ backgroundColor: theme.palette.background.default }}
+      >
         {formData ? (
           <Stack direction="column" gap={3}>
             <TextField
@@ -177,22 +165,29 @@ export default function EditDialog({ open, handleClose, transaction }: Props) {
           <Typography>No transaction selected</Typography>
         )}
       </DialogContent>
-      <DialogActions sx={{ justifyContent: "space-between" }}>
-        <Button color="error" onClick={handleDelete} disabled={isSubmitting}>
-          Delete
+      <DialogActions
+        sx={{
+          backgroundColor: theme.palette.background.default,
+        }}
+      >
+        <Button
+          onClick={handleClose}
+          disabled={isSubmitting}
+          sx={{ fontWeight: "bold" }}
+        >
+          Cancel
         </Button>
-        <Stack direction="row" gap={1}>
-          <Button onClick={handleClose} disabled={isSubmitting}>
-            Cancel
-          </Button>
-          <Button
-            variant="contained"
-            onClick={handleSave}
-            disabled={isSubmitting}
-          >
-            Save changes
-          </Button>
-        </Stack>
+        <Button
+          variant="contained"
+          onClick={handleSave}
+          disabled={isSubmitting}
+          sx={{
+            color: theme.palette.customColors.buttonText,
+            fontWeight: "bold",
+          }}
+        >
+          Save
+        </Button>
       </DialogActions>
     </BootstrapDialog>
   );

@@ -1,4 +1,4 @@
-import { Stack, Typography } from "@mui/material";
+import { Stack, Typography, useTheme } from "@mui/material";
 import { FunctionComponent } from "react";
 
 interface Props {
@@ -8,15 +8,17 @@ interface Props {
 
 const AmountCard: FunctionComponent<Props> = (props: Props) => {
   const { title, amount } = props;
+  const theme = useTheme();
+
   return (
     <Stack
       direction={"column"}
       justifyContent={"center"}
       alignItems={"center"}
       sx={{
-        backgroundColor: "white",
+        backgroundColor: theme.palette.background.default,
         padding: "18px 60px",
-        border: "1px solid lightgray",
+        border: `1px solid ${theme.palette.background.paper}`,
         borderRadius: "8px",
       }}
       flex={1}

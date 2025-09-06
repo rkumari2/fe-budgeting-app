@@ -1,4 +1,4 @@
-import { Stack, Typography } from "@mui/material";
+import { Stack, Typography, useTheme } from "@mui/material";
 import { FunctionComponent, useEffect, useState } from "react";
 import { useApi } from "../api/api";
 import AmountCard from "../components/AmountCard";
@@ -13,6 +13,7 @@ interface Props {}
 
 const Home: FunctionComponent<Props> = (props: Props) => {
   const { month } = useMonth();
+  const theme = useTheme();
   const { isLoading, data: transactionData } = useApi<Transaction[]>(
     "transactions",
     {
@@ -22,9 +23,6 @@ const Home: FunctionComponent<Props> = (props: Props) => {
   const [totalBalance, setTotalBalance] = useState<number>();
   const [totalIncome, setTotalIncome] = useState<number>();
   const [totalExpenses, setTotalExpenses] = useState<number>();
-
-  console.log("Month", month);
-  console.log(transactionData);
 
   useEffect(() => {
     if (transactionData) {
@@ -59,7 +57,11 @@ const Home: FunctionComponent<Props> = (props: Props) => {
           width={"100%"}
         >
           <MonthCalendar />
-          <Typography variant="h6" fontWeight={"bold"}>
+          <Typography
+            variant="h6"
+            fontWeight={"bold"}
+            color={theme.palette.text.primary}
+          >
             Dashboard
           </Typography>
         </Stack>
@@ -88,14 +90,13 @@ const Home: FunctionComponent<Props> = (props: Props) => {
             justifyContent="center"
             alignItems="start"
             sx={{
-              backgroundColor: "white",
               padding: "18px 20px",
-              border: "1px solid lightgray",
+              border: `1px solid ${theme.palette.background.paper}`,
               borderRadius: "8px",
             }}
             flex={2}
-            minHeight={320}
-            maxHeight={320}
+            minHeight={400}
+            maxHeight={400}
           >
             <TransactionList transactionData={transactionData} />
           </Stack>
@@ -106,16 +107,21 @@ const Home: FunctionComponent<Props> = (props: Props) => {
             justifyContent="start"
             alignItems="center"
             sx={{
-              backgroundColor: "white",
+              backgroundColor: theme.palette.background.default,
               padding: "18px 20px",
-              border: "1px solid lightgray",
+              border: `1px solid ${theme.palette.background.paper}`,
               borderRadius: "8px",
             }}
             flex={0.9}
-            minHeight={320}
-            maxHeight={320}
+            minHeight={400}
+            maxHeight={400}
           >
-            <Typography variant="body1" align="center" gutterBottom>
+            <Typography
+              variant="body1"
+              align="center"
+              gutterBottom
+              color={theme.palette.text.primary}
+            >
               Expenses by Category
             </Typography>
             <TransactionPieChart transactionData={transactionData} />
@@ -135,16 +141,21 @@ const Home: FunctionComponent<Props> = (props: Props) => {
             justifyContent="start"
             alignItems="center"
             sx={{
-              backgroundColor: "white",
+              backgroundColor: theme.palette.background.default,
               padding: "18px 20px",
-              border: "1px solid lightgray",
+              border: `1px solid ${theme.palette.background.paper}`,
               borderRadius: "8px",
             }}
             flex={1}
             minHeight={320}
             maxHeight={320}
           >
-            <Typography variant="body1" align="center" gutterBottom>
+            <Typography
+              variant="body1"
+              align="center"
+              gutterBottom
+              color={theme.palette.text.primary}
+            >
               Expense vs Income by category
             </Typography>
             <InsightsBarChart transactionData={transactionData} />

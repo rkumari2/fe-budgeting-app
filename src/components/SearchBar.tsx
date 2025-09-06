@@ -1,5 +1,10 @@
 import SearchIcon from "@mui/icons-material/Search";
-import { FormControl, InputAdornment, OutlinedInput } from "@mui/material";
+import {
+  FormControl,
+  InputAdornment,
+  OutlinedInput,
+  useTheme,
+} from "@mui/material";
 import { FunctionComponent } from "react";
 
 interface Props {
@@ -10,6 +15,7 @@ interface Props {
 
 const SearchBar: FunctionComponent<Props> = (props: Props) => {
   const { placeholder, value, onChange } = props;
+  const theme = useTheme();
 
   return (
     <FormControl variant="outlined" fullWidth>
@@ -20,11 +26,11 @@ const SearchBar: FunctionComponent<Props> = (props: Props) => {
         placeholder={placeholder}
         startAdornment={
           <InputAdornment position="start">
-            <SearchIcon sx={{ color: "black" }} />
+            <SearchIcon sx={{ color: theme.palette.text.primary }} />
           </InputAdornment>
         }
         sx={{
-          backgroundColor: "white",
+          backgroundColor: theme.palette.background.default,
           borderRadius: "8px",
         }}
       />

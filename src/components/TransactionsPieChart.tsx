@@ -1,3 +1,4 @@
+import { useTheme } from "@mui/material/styles";
 import React from "react";
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import { Transaction } from "../types/transactions";
@@ -15,15 +16,6 @@ const aggregateByCategory = (data: Transaction[]) => {
   });
   return Object.entries(totals).map(([name, value]) => ({ name, value }));
 };
-
-const COLORS = [
-  "#0088FE",
-  "#00C49F",
-  "#FFBB28",
-  "#FF8042",
-  "#A28EFF",
-  "#FF6E6E",
-];
 
 const RADIAN = Math.PI / 180;
 
@@ -63,13 +55,24 @@ const renderCustomizedLabel = ({
 };
 
 const TransactionPieChart: React.FC<Props> = ({ transactionData }) => {
+  const theme = useTheme();
+
   if (!transactionData || transactionData.length === 0) {
     return <div>No transaction data available</div>;
   }
 
   const data = aggregateByCategory(transactionData);
 
-  console.log("Pie Chart Data", data);
+  const COLORS = [
+    theme.palette.customColors.coral,
+    theme.palette.customColors.pink,
+    theme.palette.customColors.purple,
+    theme.palette.customColors.lightBlue,
+    theme.palette.customColors.darkBlue,
+    theme.palette.customColors.teal,
+    theme.palette.customColors.yellow,
+    theme.palette.customColors.blue,
+  ];
 
   return (
     <ResponsiveContainer width="100%" height={300}>
@@ -91,7 +94,12 @@ const TransactionPieChart: React.FC<Props> = ({ transactionData }) => {
             />
           ))}
         </Pie>
-        <Tooltip />
+        <Tooltip
+          formatter={(value: number, _name: string, entry: any) => [
+            `£${value}`,
+            entry.name,
+          ]}
+        />
       </PieChart>
     </ResponsiveContainer>
   );

@@ -53,7 +53,10 @@ const MonthCalendar: FunctionComponent<Props> = (): JSX.Element => {
   return (
     <>
       <Stack direction="row" alignItems="center">
-        <IconButton color="primary" onClick={handleSetPreviousMonth}>
+        <IconButton
+          onClick={handleSetPreviousMonth}
+          sx={{ color: theme.palette.primary.main }}
+        >
           <ArrowBackIcon />
         </IconButton>
 
@@ -61,11 +64,15 @@ const MonthCalendar: FunctionComponent<Props> = (): JSX.Element => {
           variant="text"
           startIcon={<CalendarMonthIcon />}
           onClick={handleOpenCalendar}
+          sx={{ color: theme.palette.primary.main }}
         >
           {selectedMonth.format("MMMM YYYY")}
         </Button>
 
-        <IconButton color="primary" onClick={handleSetNextMonth}>
+        <IconButton
+          onClick={handleSetNextMonth}
+          sx={{ color: theme.palette.primary.main }}
+        >
           <ArrowForwardIcon />
         </IconButton>
       </Stack>
@@ -91,10 +98,17 @@ const MonthCalendar: FunctionComponent<Props> = (): JSX.Element => {
             }
           }}
           slots={{ actionBar: () => null }}
+          sx={{ backgroundColor: theme.palette.background.default }}
         />
         {/* </LocalizationProvider> */}
 
-        <Box sx={{ padding: 2, textAlign: "center" }}>
+        <Box
+          sx={{
+            padding: 2,
+            textAlign: "center",
+            backgroundColor: theme.palette.background.default,
+          }}
+        >
           <button
             onClick={() => {
               const current = dayjs();
